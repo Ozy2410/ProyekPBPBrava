@@ -3,8 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
-    id("com.google.gms.google-services") version "4.4.2" apply false
-    id("com.android.application")
     id("com.google.gms.google-services")
 }
 
@@ -14,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.codecraft"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -48,6 +46,11 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.android.gms:play-services-auth:21.2.0") // Use the latest version
+    implementation("com.google.android.gms:play-services-base:18.5.0") // Use the latest version
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
