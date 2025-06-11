@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.CodeCraft" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/purple_darker</item>
+        <item name="colorPrimaryVariant">@color/purple_darker</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/purple_light</item>
+        <item name="colorSecondaryVariant">@color/purple_light</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="QuizCardStyle" parent="CardView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item> <item name="app:cardCornerRadius">16dp</item>
+        <item name="app:cardElevation">4dp</item>
+        <item name="android:backgroundTint">@color/very_light_purple</item>
+        <item name="app:layout_constraintDimensionRatio">1:1</item> <item name="app:layout_constraintWidth_percent">0.45</item> </style>
+
+    <style name="QuizCardContentStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="QuizCardIconStyle">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:src">@drawable/codecraft_logo</item>
+        <item name="android:contentDescription">Quiz Icon</item>
+    </style>
+
+    <style name="QuizCardTitleStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="QuizCardDescriptionStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="ChallengeCardStyle" parent="CardView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="app:cardCornerRadius">16dp</item>
+        <item name="app:cardElevation">4dp</item>
+        <item name="android:backgroundTint">@color/very_light_purple</item>
+        <item name="app:layout_constraintDimensionRatio">1:1</item>
+        <item name="app:layout_constraintWidth_percent">0.45</item>
+    </style>
+
+    <style name="ChallengeCardContentStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="ChallengeCardIconStyle">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:src">@drawable/codecraft_logo</item>
+        <item name="android:contentDescription">Challenge Icon</item>
+    </style>
+
+    <style name="ChallengeCardTitleStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="ChallengeCardScoreLayout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+    <style name="ChallengeCardScoreText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+
+    <style name="ChallengeCardLightningIcon">
+        <item name="android:layout_width">16dp</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="app:tint">@android:color/darker_gray</item>
+        <item name="android:contentDescription">Lightning Icon</item>
+    </style>
+
+</resources>
