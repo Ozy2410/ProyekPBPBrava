@@ -25,7 +25,7 @@
         android:id="@+id/close_icon_dashboard"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="ic_close" android:layout_marginEnd="24dp"
+        android:src="@drawable/close_icon" android:layout_marginEnd="24dp"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -60,7 +60,7 @@
                 android:id="@+id/profile_avatar"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="ic_profile_avatar" android:contentDescription="Profile Avatar"
+                android:src="@drawable/profile_icon" android:contentDescription="Profile Avatar"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -112,7 +112,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="ic_lightning_bolt" android:contentDescription="Points Icon"
+                        android:src="@drawable/energy_icon" android:contentDescription="Points Icon"
                         app:tint="@android:color/white" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -166,12 +166,13 @@
                         android:backgroundTint="@android:color/white"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent">
+
                         <ImageView
-                            android:layout_width="40dp"
+                            android:layout_width="33dp"
                             android:layout_height="40dp"
-                            android:src="codecraft_logo"
                             android:layout_gravity="center"
-                            android:contentDescription="Daily Quiz Icon" />
+                            android:contentDescription="Daily Quiz Icon"
+                            android:src="@drawable/codecraft_logo_square" />
                     </androidx.cardview.widget.CardView>
 
                     <TextView
@@ -256,7 +257,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
                     <LinearLayout style="@style/QuizCardContentStyle">
-                        <ImageView style="@style/QuizCardIconStyle" android:src="codecraft_logo" />
+                        <ImageView style="@style/QuizCardIconStyle" android:src="@drawable/codecraft_logo_circle" />
                         <TextView style="@style/QuizCardTitleStyle" android:text="Integer Master" />
                         <TextView style="@style/QuizCardDescriptionStyle" android:text="Untuk Kamu yang jago ngitung nih!" />
                     </LinearLayout>
@@ -268,7 +269,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
                     <LinearLayout style="@style/QuizCardContentStyle">
-                        <ImageView style="@style/QuizCardIconStyle" android:src="codecraft_logo" />
+                        <ImageView style="@style/QuizCardIconStyle" android:src="@drawable/codecraft_logo_circle" />
                         <TextView style="@style/QuizCardTitleStyle" android:text="King If - Else" />
                         <TextView style="@style/QuizCardDescriptionStyle" android:text="Kamu suka kemungkinan? Coba ini!" />
                     </LinearLayout>
@@ -281,7 +282,7 @@
                     app:layout_constraintTop_toBottomOf="@id/integer_master_card"
                     app:layout_constraintStart_toStartOf="parent">
                     <LinearLayout style="@style/QuizCardContentStyle">
-                        <ImageView style="@style/QuizCardIconStyle" android:src="codecraft_logo" />
+                        <ImageView style="@style/QuizCardIconStyle" android:src="@drawable/codecraft_logo_circle" />
                         <TextView style="@style/QuizCardTitleStyle" android:text="Pro Boolean" />
                         <TextView style="@style/QuizCardDescriptionStyle" android:text="Penentuan ada ditanganmu!" />
                     </LinearLayout>
@@ -294,7 +295,7 @@
                     app:layout_constraintTop_toBottomOf="@id/king_if_else_card"
                     app:layout_constraintEnd_toEndOf="parent">
                     <LinearLayout style="@style/QuizCardContentStyle">
-                        <ImageView style="@style/QuizCardIconStyle" android:src="codecraft_logo" />
+                        <ImageView style="@style/QuizCardIconStyle" android:src="@drawable/codecraft_logo_circle" />
                         <TextView style="@style/QuizCardTitleStyle" android:text="Lord Inheritance" />
                         <TextView style="@style/QuizCardDescriptionStyle" android:text="Sudah tahu atau sudah paham?" />
                     </LinearLayout>
@@ -332,7 +333,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
                     <LinearLayout style="@style/ChallengeCardContentStyle">
-                        <ImageView style="@style/ChallengeCardIconStyle" android:src="codecraft_logo" />
+                        <ImageView style="@style/ChallengeCardIconStyle" android:src="@drawable/codecraft_logo_square" />
                         <TextView style="@style/ChallengeCardTitleStyle" android:text="Language Quiz" />
                         <LinearLayout style="@style/ChallengeCardScoreLayout">
                             <TextView style="@style/ChallengeCardScoreText" android:text="0/15" />
@@ -347,7 +348,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
                     <LinearLayout style="@style/ChallengeCardContentStyle">
-                        <ImageView style="@style/ChallengeCardIconStyle" android:src="codecraft_logo" />
+                        <ImageView style="@style/ChallengeCardIconStyle" android:src="@drawable/codecraft_logo_square" />
                         <TextView style="@style/ChallengeCardTitleStyle" android:text="Exam Quiz" />
                         <LinearLayout style="@style/ChallengeCardScoreLayout">
                             <TextView style="@style/ChallengeCardScoreText" android:text="0/25" />
@@ -387,7 +388,7 @@
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="ic_home" app:tint="#9C27B0" android:contentDescription="Home" />
+                android:src="@drawable/home_icon" android:contentDescription="home" />
         </LinearLayout>
 
         <LinearLayout
@@ -405,7 +406,7 @@
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:src="ic_leaderboard" app:tint="@android:color/darker_gray"
+                    android:src="@drawable/leaderboard_icon"
                     android:contentDescription="Leaderboard" />
                 <TextView
                     android:layout_width="20dp"
@@ -435,7 +436,7 @@
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:src="ic_bookmark" app:tint="@android:color/darker_gray"
+                    android:src="@drawable/bookmark_icon"
                     android:contentDescription="Bookmarks" />
                 <TextView
                     android:layout_width="20dp"
@@ -463,7 +464,7 @@
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="ic_settings" app:tint="@android:color/darker_gray"
+                android:src="@drawable/setting_icon"
                 android:contentDescription="Settings" />
         </LinearLayout>
     </LinearLayout>

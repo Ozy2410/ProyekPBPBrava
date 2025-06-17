@@ -249,7 +249,7 @@
             android:id="@+id/bottom_logo_image_view"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="..."
+            android:src="@drawable/codecraft_logo_circle"
             android:layout_gravity="center"
             android:contentDescription="CodeCraft Logo" />
     </androidx.cardview.widget.CardView>
