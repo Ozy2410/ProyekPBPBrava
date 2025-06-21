@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="purple_light">#D1C4E9</color>
+    <color name="purple_darker">#9C27B0</color>
+    <color name="grey_background">#F0F0F0</color>
+    <color name="darker_gray">#AAAAAA</color>
+    <color name="very_light_purple">#F5F3FF</color>
+    <color name="orange_time_progress">#FFC107</color>
+    <color name="red_badge">#FF0000</color>
+    <color name="answered_question_color">#A7FFEB</color>
+    <color name="current_question_color">@color/purple_darker</color>
+    <color name="light_grey_question_box">#E0E0E0</color>
 </resources>

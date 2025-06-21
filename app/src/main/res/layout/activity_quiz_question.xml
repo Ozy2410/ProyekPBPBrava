@@ -12,12 +12,12 @@
         android:id="@+id/app_title_quiz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Code Craft"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
+        android:text="Code Craft"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,63 +25,65 @@
         android:id="@+id/close_icon_quiz"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/ic_close"
-        android:layout_marginEnd="24dp"
         android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="24dp"
         android:clickable="true"
+        android:contentDescription="Close"
         android:focusable="true"
-        android:contentDescription="Close" />
+        android:src="@drawable/close_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/question_progress_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Question 5/15"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
         android:layout_marginTop="48dp"
-        app:layout_constraintTop_toBottomOf="@id/app_title_quiz"
+        android:text="Question 5/15"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/app_title_quiz" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/question_card"
         android:layout_width="0dp"
         android:layout_height="180dp"
         android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#D1C4E9"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
-        android:backgroundTint="#D1C4E9" app:layout_constraintTop_toBottomOf="@id/question_progress_text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/question_progress_text">
 
         <TextView
             android:id="@+id/question_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Java Adalah bla bla" android:textSize="22sp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
             android:gravity="center"
-            android:padding="16dp" />
+            android:padding="16dp"
+            android:text="Java Adalah bla bla"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/time_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
         android:text="Time"
-        android:textSize="16sp"
         android:textColor="@android:color/black"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/question_card"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question_card" />
 
     <ProgressBar
         android:id="@+id/time_progress_bar"
@@ -91,85 +93,38 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:max="100"
-        android:progress="70" android:progressTint="#FFC107" android:progressBackgroundTint="@android:color/darker_gray"
+        android:progress="70"
+        android:progressBackgroundTint="@android:color/darker_gray"
+        android:progressTint="#FFC107"
         app:layout_constraintBottom_toBaselineOf="@id/time_label"
+        app:layout_constraintEnd_toStartOf="@id/time_value"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/time_label"
-        app:layout_constraintEnd_toStartOf="@id/time_value" />
+        tools:layout_editor_absoluteY="376dp" />
 
     <TextView
         android:id="@+id/time_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10.00"
-        android:textSize="16sp"
-        android:textColor="@android:color/black"
         android:layout_marginEnd="24dp"
+        android:text="10.00"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBaselineOf="@id/time_label"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/option_a_card"
-        style="@style/AnswerOptionCardStyle"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/time_progress_bar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <TextView
-            android:id="@+id/option_a_text"
-            style="@style/AnswerOptionTextStyle"
-            android:text="Opsi Jawaban A" />
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/option_b_card"
-        style="@style/AnswerOptionCardStyle"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/option_a_card"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <TextView
-            android:id="@+id/option_b_text"
-            style="@style/AnswerOptionTextStyle"
-            android:text="Opsi Jawaban B" />
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/option_c_card"
-        style="@style/AnswerOptionCardStyle"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/option_b_card"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <TextView
-            android:id="@+id/option_c_text"
-            style="@style/AnswerOptionTextStyle"
-            android:text="Opsi Jawaban C" />
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/option_d_card"
-        style="@style/AnswerOptionCardStyle"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/option_c_card"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <TextView
-            android:id="@+id/option_d_text"
-            style="@style/AnswerOptionTextStyle"
-            android:text="Opsi Jawaban D" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="366dp" />
 
     <LinearLayout
         android:id="@+id/action_buttons_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="24dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/answer_button"
@@ -180,26 +135,63 @@
             android:id="@+id/audience_button"
             style="@style/ActionButtonStyle"
             android:layout_marginStart="16dp"
-            android:text="Audience"
-            android:drawableTop="@drawable/ic_audience"
-            android:paddingTop="8dp" />
+            android:drawableTop="@drawable/audience_icon"
+            android:paddingTop="8dp"
+            android:text="Audience" />
 
         <Button
             android:id="@+id/flag_button"
             style="@style/ActionButtonStyle"
             android:layout_marginStart="16dp"
-            android:text="Flag"
-            android:drawableTop="@drawable/ic_flag"
-            android:paddingTop="8dp" />
+            android:drawableTop="@drawable/flag_icon"
+            android:paddingTop="8dp"
+            android:text="Flag" />
 
         <Button
             android:id="@+id/skip_button"
             style="@style/ActionButtonStyle"
             android:layout_marginStart="16dp"
-            android:text="Skip"
-            android:drawableTop="@drawable/ic_skip"
-            android:paddingTop="8dp" />
+            android:drawableTop="@drawable/skip_icon"
+            android:paddingTop="8dp"
+            android:text="Skip" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="355dp"
+        android:layout_height="56dp"
+        android:text="Answer A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="399dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="355dp"
+        android:layout_height="56dp"
+        android:text="Answer B"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="455dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="355dp"
+        android:layout_height="56dp"
+        android:text="Answer C"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="511dp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="355dp"
+        android:layout_height="56dp"
+        android:text="Answer D"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="567dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

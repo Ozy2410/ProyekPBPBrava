@@ -1,5 +1,6 @@
 package com.example.codecraft
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer // Untuk simulasi timer UI
 import android.widget.Button
@@ -86,6 +87,7 @@ class QuizQuestionActivity : AppCompatActivity() {
     )
 
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

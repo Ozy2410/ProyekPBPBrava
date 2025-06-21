@@ -29,7 +29,7 @@
     <style name="QuizCardIconStyle">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
-        <item name="android:src">@drawable/codecraft_logo</item>
+        <item name="android:src">@drawable/codecraft_logo_circle</item>
         <item name="android:contentDescription">Quiz Icon</item>
     </style>
 
@@ -73,7 +73,7 @@
     <style name="ChallengeCardIconStyle">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
-        <item name="android:src">@drawable/codecraft_logo</item>
+        <item name="android:src">@drawable/codecraft_logo_circle</item>
         <item name="android:contentDescription">Challenge Icon</item>
     </style>
 
@@ -176,6 +176,22 @@
             <item name="android:paddingEnd">4dp</item>
             <item name="android:drawablePadding">4dp</item>
         </style>
+
+    <?xml version="1.0" encoding="utf-8"?>
+
+        <style name="QuestionGridButtonStyle" parent="Widget.MaterialComponents.Button">
+            <item name="android:layout_width">0dp</item>
+            <item name="android:layout_height">0dp</item>
+            <item name="android:layout_columnWeight">1</item>
+            <item name="android:layout_rowWeight">1</item>
+            <item name="android:layout_margin">8dp</item> <item name="android:textSize">18sp</item>
+            <item name="android:textColor">@android:color/black</item>
+            <item name="android:backgroundTint">#E0E0E0</item> <item name="app:cornerRadius">12dp</item>
+            <item name="android:gravity">center</item>
+            <item name="android:textStyle">bold</item>
+        </style>
+
+
 
 
 </resources>
