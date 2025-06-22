@@ -131,11 +131,10 @@
                 android:progress="70"
                 android:progressBackgroundTint="@android:color/darker_gray"
                 android:progressTint="#FFC107"
-                app:layout_constraintBottom_toBaselineOf="@id/time_label_quiz_selection"
+                app:layout_constraintBaseline_toBaselineOf="@id/time_label_quiz_selection"
                 app:layout_constraintEnd_toStartOf="@id/time_value_quiz_selection"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/time_label_quiz_selection"
-                tools:layout_editor_absoluteY="414dp" />
+                app:layout_constraintStart_toEndOf="@id/time_label_quiz_selection" />
 
             <TextView
                 android:id="@+id/time_value_quiz_selection"
@@ -145,9 +144,8 @@
                 android:text="10.00"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBaselineOf="@id/time_label_quiz_selection"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteY="409dp" />
+                app:layout_constraintBaseline_toBaselineOf="@id/time_label_quiz_selection"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <LinearLayout
                 android:id="@+id/action_buttons_layout_quiz_selection"
