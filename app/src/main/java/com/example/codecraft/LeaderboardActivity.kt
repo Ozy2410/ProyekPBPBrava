@@ -44,18 +44,15 @@ class LeaderboardActivity : AppCompatActivity() {
 
         // Set up click listeners
         closeIcon.setOnClickListener {
-            finish() // Closes the current activity
+            finish()
         }
 
         // --- Populate dummy leaderboard data ---
-        // In a real application, you would fetch this data from an API or database
-        // and populate it dynamically, often using a RecyclerView.
-        // For this static layout, we'll manually set the text for each included item.
 
-        populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_1), "#1", "Amba Fauzi Ramadhan", "Expert")
-        populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_2), "#2", "Faiz Maulana", "Expert")
-        populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_3), "#3", "Lorem Ipsum", "Expert")
-        populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_4), "#4", "Lorem Ipsum", "Advanced")
+        populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_1), "#1", "Ahmad Fauzi Ramadhan", "Expert")
+        populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_2), "#2", "Faiz Raihan", "Expert")
+        populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_3), "#3", "Sofyan Albiansyah", "Expert")
+        populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_4), "#4", "Raden Faiz", "Advanced")
         populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_5), "#5", "Lorem Ipsum", "Advanced")
         populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_6), "#6", "Lorem Ipsum", "Advanced")
         populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_7), "#7", "Lorem Ipsum", "Intermediate")
@@ -64,22 +61,22 @@ class LeaderboardActivity : AppCompatActivity() {
         populateLeaderboardEntry(findViewById(R.id.leaderboard_entry_10), "#10", "Lorem Ipsum", "Intermediate")
 
 
-        // Set up Bottom Navigation listeners (replace with actual navigation logic)
+
         navHome.setOnClickListener {
             val intent = Intent(this, DashboardActivity::class.java) // Navigate to Dashboard
             startActivity(intent)
-            finish() // Close current activity to prevent back-stack accumulation
+            finish()
         }
         navLeaderboard.setOnClickListener {
             Toast.makeText(this, "Leaderboard clicked (already here)", Toast.LENGTH_SHORT).show()
         }
         navBookmarks.setOnClickListener {
-            val intent = Intent(this, BookmarksActivity::class.java) // Assuming you have BookmarksActivity
+            val intent = Intent(this, BookmarksActivity::class.java)
             startActivity(intent)
             finish()
         }
         navSettings.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java) // Assuming you have SettingsActivity
+            val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
             finish()
         }

@@ -2,25 +2,26 @@ package com.example.codecraft
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast // For showing temporary messages
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
 
 class ChangePasswordActivity : AppCompatActivity() {
 
-    private lateinit var usernameEditText: TextInputEditText
-    private lateinit var emailEditText: TextInputEditText
     private lateinit var newPasswordEditText: TextInputEditText
     private lateinit var rewritePasswordEditText: TextInputEditText
     private lateinit var confirmButton: Button
 
+    private val auth = FirebaseAuth.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_changepassword) // Ensure this points to your change password layout
+        setContentView(R.layout.activity_changepassword)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -28,41 +29,39 @@ class ChangePasswordActivity : AppCompatActivity() {
             insets
         }
 
-        // Initialize UI elements
-        usernameEditText = findViewById(R.id.username_edit_text)
-        emailEditText = findViewById(R.id.email_edit_text)
         newPasswordEditText = findViewById(R.id.new_password_edit_text)
         rewritePasswordEditText = findViewById(R.id.rewrite_password_edit_text)
         confirmButton = findViewById(R.id.confirm_button)
 
-        // Set up click listener for the Confirm button
         confirmButton.setOnClickListener {
-            // Get input values
-            val username = usernameEditText.text.toString()
-            val email = emailEditText.text.toString()
             val newPassword = newPasswordEditText.text.toString()
             val rewritePassword = rewritePasswordEditText.text.toString()
 
-            // Basic validation
-            if (username.isEmpty() || email.isEmpty() || newPassword.isEmpty() || rewritePassword.isEmpty()) {
+            if (newPassword.isEmpty() || rewritePassword.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
-            } else if (newPassword != rewritePassword) {
-                Toast.makeText(this, "New passwords do not match", Toast.LENGTH_SHORT).show()
-            } else {
-                // All fields filled and passwords match, proceed with password change logic
-                // For demonstration, print to Logcat and show a toast
-                println("Password change requested for Username: $username, Email: $email with New Password: $newPassword")
-                Toast.makeText(this, "Password Change Confirmed!", Toast.LENGTH_SHORT).show()
-
-                // In a real app, you would:
-                // 1. Send this data to your backend API.
-                // 2. Handle success/failure responses.
-                // 3. Navigate back to the Login screen or a profile screen upon success.
-                // Example:
-                // val intent = Intent(this, Login::class.java)
-                // startActivity(intent)
-                // finish() // Close the current activity
+                return@setOnClickListener
             }
+
+            if (newPassword.length < 6) {
+                Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (newPassword != rewritePassword) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Update password in Firebase
+            auth.currentUser?.updatePassword(newPassword)
+                ?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Password updated successfully!", Toast.LENGTH_SHORT).show()
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Failed to update password. Please try again.", Toast.LENGTH_LONG).show()
+                    }
+                }
         }
     }
 }

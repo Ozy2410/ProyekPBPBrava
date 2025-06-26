@@ -24,7 +24,7 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_sign_up) // Ensure this points to your signup layout
+        setContentView(R.layout.activity_sign_up)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -41,7 +41,6 @@ class SignUpActivity : AppCompatActivity() {
         confirmButton = findViewById(R.id.confirm_button)
         signInTextView = findViewById(R.id.sign_in_text_button)
 
-        // Set up click listeners
         confirmButton.setOnClickListener {
             // Get input values
             val username = usernameEditText.text.toString()
@@ -50,29 +49,22 @@ class SignUpActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString()
             val rewritePassword = rewritePasswordEditText.text.toString()
 
-            // Basic validation (you'll need more robust validation for a real app)
             if (username.isEmpty() || asal.isEmpty() || email.isEmpty() || password.isEmpty() || rewritePassword.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             } else if (password != rewritePassword) {
                 Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
             } else {
-                // All fields filled and passwords match, proceed with sign-up logic
-                // For demonstration, print to Logcat and show a toast
+
                 println("Username: $username, Asal: $asal, Email: $email, Password: $password")
                 Toast.makeText(this, "Sign Up Successful!", Toast.LENGTH_SHORT).show()
 
-                // Optionally, navigate back to the LoginActivity after successful sign-up
-                // val intent = Intent(this, Login::class.java)
-                // startActivity(intent)
-                // finish() // Close the current activity so the user can't go back with the back button
             }
         }
 
         signInTextView.setOnClickListener {
-            // Handle "Sign In!" text click - navigate to LoginActivity
             val intent = Intent(this, Login::class.java)
             startActivity(intent)
-            finish() // Finish SignUpActivity so user can't go back to it from Login
+            finish()
         }
     }
 }

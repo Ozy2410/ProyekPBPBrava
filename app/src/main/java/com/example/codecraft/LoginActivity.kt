@@ -1,12 +1,13 @@
 package com.example.codecraft
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -32,134 +33,126 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun LoginPage() {
-    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var loginError by remember { mutableStateOf<String?>(null) }
+    var error by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val auth = FirebaseAuth.getInstance()
 
-    // Configure Google Sign In
-    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken(context.getString(R.string.default_web_client_id))
-        .requestEmail()
-        .build()
-    val googleSignInClient = GoogleSignIn.getClient(context, gso)
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
+                isLoading = true
+                auth.signInWithCredential(credential).addOnCompleteListener { authTask ->
+                    isLoading = false
+                    if (authTask.isSuccessful) {
+                        Toast.makeText(context, "Google Sign-In Success", Toast.LENGTH_SHORT).show()
 
-    val googleSignInLauncher = rememberLauncherForActivityResult<Intent, androidx.activity.result.ActivityResult>(ActivityResultContracts.StartActivityForResult()) { result ->
-        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-        try {
-            val account = task.getResult(ApiException::class.java)
-            if (account != null) {
-                val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-                auth.signInWithCredential(credential)
-                    .addOnCompleteListener { authTask ->
-                        isLoading = false
-                        if (authTask.isSuccessful) {
-                            // Google Sign-In successful
-                            Toast.makeText(context, "Google Sign-In successful", Toast.LENGTH_SHORT).show()
-                            // Navigate to the next screen (e.g., MainActivity)
-                            context.startActivity(Intent(context, MainActivity::class.java))
-                        } else {
-                            // Google Sign-In failed
-                            loginError = authTask.exception?.message ?: "Google Sign-In failed"
+                        // Navigate to Dashboard with user's email
+                        val user = authTask.result?.user
+                        val intent = Intent(context, DashboardActivity::class.java).apply {
+                            putExtra("USER_EMAIL", user?.email)
                         }
+                        context.startActivity(intent)
+                        (context as? Activity)?.finishAffinity()
+                    } else {
+                        error = authTask.exception?.message ?: "An unknown error occurred."
                     }
+                }
+            } catch (e: ApiException) {
+                error = "Google Sign-In failed. Code: ${e.statusCode}"
             }
-        } catch (e: ApiException) {
-            isLoading = false
-            // Google Sign-In failed
-            loginError = e.message ?: "Google Sign-In failed"
-            Toast.makeText(context, "Google Sign-In failed: ${e.message}", Toast.LENGTH_SHORT).show()
+        } else {
+            error = "Google Sign-In was cancelled."
         }
     }
 
+    val googleSignInClient = remember {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(context.getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        GoogleSignIn.getClient(context, gso)
+    }
+
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text("Login", style = MaterialTheme.typography.headlineMedium)
-
         Spacer(modifier = Modifier.height(16.dp))
 
-        TextField(
-            value = username,
-            onValueChange = { username = it },
-            label = { Text("Username") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
+        OutlinedTextField(value = email, onValueChange = { email = it }, label = { Text("Email") }, modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(8.dp))
-
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
+        OutlinedTextField(value = password, onValueChange = { password = it }, label = { Text("Password") }, visualTransformation = PasswordVisualTransformation(), modifier = Modifier.fillMaxWidth())
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (isLoading) {
-            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-        } else {
-            Button(
-                onClick = {
-                    isLoading = true
-                    loginError = null // Clear previous errors
-                    auth.signInWithEmailAndPassword(username, password)
-                        .addOnCompleteListener { task ->
-                            isLoading = false
-                            if (task.isSuccessful) {
-                                // Login successful
-                                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
-                                // Navigate to the next screen (e.g., MainActivity)
-                                context.startActivity(Intent(context, MainActivity::class.java))
-                            } else {
-                                loginError = task.exception?.message
-                            }
+        Button(
+            onClick = {
+                // Email/Password Login
+                if (email.isBlank() || password.isBlank()) {
+                    error = "Email and password cannot be empty."
+                    return@Button
+                }
+                isLoading = true
+                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    isLoading = false
+                    if(task.isSuccessful) {
+                        Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
+                        val user = task.result?.user
+                        val intent = Intent(context, DashboardActivity::class.java).apply {
+                            putExtra("USER_EMAIL", user?.email)
                         }
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Login with Email")
-            }
+                        context.startActivity(intent)
+                        (context as? Activity)?.finishAffinity()
+                    } else {
+                        error = task.exception?.message ?: "Login Failed"
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
+        ) {
+            Text("Login with Email")
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
             onClick = {
-                isLoading = true
-                loginError = null // Clear previous errors
-                val signInIntent = googleSignInClient.signInIntent
-                googleSignInLauncher.launch(signInIntent)
+                error = null
+                googleSignInClient.signOut().addOnCompleteListener {
+                    val signInIntent = googleSignInClient.signInIntent
+                    googleSignInLauncher.launch(signInIntent)
+                }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
         ) {
             Text("Sign in with Google")
         }
 
-        loginError?.let {
-            Text(
-                text = it,
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(top = 8.dp)
-            )
+        if (isLoading) {
+            Spacer(modifier = Modifier.height(16.dp))
+            CircularProgressIndicator()
+        }
+
+        error?.let {
+            Text(text = it, color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(top = 8.dp))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-
         Button(
-            onClick = {
-                // Navigate to Registration screen
-                context.startActivity(Intent(context, RegisterActivity::class.java))
-            },
+            onClick = { context.startActivity(Intent(context, RegisterActivity::class.java)) },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Register")

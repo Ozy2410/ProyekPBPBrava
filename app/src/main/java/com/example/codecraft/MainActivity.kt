@@ -1,27 +1,29 @@
 package com.example.codecraft
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
-import com.example.codecraft.ui.theme.CodeCraftTheme
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            CodeCraftTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
-                ) {
-                    BakingScreen()
-                }
-            }
+
+        auth = FirebaseAuth.getInstance()
+
+        // Check if user is signed in
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            // User is already signed in, go straight to the Dashboard
+            startActivity(Intent(this, DashboardActivity::class.java))
+        } else {
+            // No user is signed in, go to the Login screen
+            startActivity(Intent(this, LoginActivity::class.java))
         }
+
+        finish()
     }
 }

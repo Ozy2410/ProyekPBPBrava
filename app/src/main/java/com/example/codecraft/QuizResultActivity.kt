@@ -1,24 +1,19 @@
 package com.example.codecraft
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast // Hanya untuk demo UI
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class QuizResultActivity : AppCompatActivity() {
-
-    // Deklarasi variabel untuk elemen UI
-    private lateinit var closeIcon: ImageView
-    private lateinit var quizTitleResult: TextView
-    private lateinit var congratulationsText: TextView
-    private lateinit var scoreValue: TextView
-    private lateinit var pointValue: TextView
-    private lateinit var nextButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,43 +26,52 @@ class QuizResultActivity : AppCompatActivity() {
             insets
         }
 
-        // Inisialisasi elemen UI
-        closeIcon = findViewById(R.id.close_icon_quiz_result)
-        quizTitleResult = findViewById(R.id.quiz_title_result)
-        congratulationsText = findViewById(R.id.congratulations_text)
-        scoreValue = findViewById(R.id.score_value)
-        pointValue = findViewById(R.id.point_value)
-        nextButton = findViewById(R.id.next_button_result)
+        val score = intent.getIntExtra("USER_SCORE", 0)
+        val totalQuestions = intent.getIntExtra("TOTAL_QUESTIONS", 5)
+        val sessionId = intent.getStringExtra("SESSION_ID")
 
-        // --- Data dummy untuk demonstrasi UI ---
-        // Di aplikasi nyata, nilai-nilai ini akan diterima dari hasil kuis sebenarnya
-        val quizName = "Java Quiz"
-        val userName = "Dewa Coding" // Nama pengguna yang login
-        val userScore = "100%"
-        val userPoints = "15"
-        val passingScore = "100%"
-        val passingPoint = "15"
+        val scoreValue: TextView = findViewById(R.id.score_value)
+        val congratulationsText: TextView = findViewById(R.id.congratulations_text)
+        val nextButton: Button = findViewById(R.id.next_button_result)
 
-        quizTitleResult.text = quizName
-        congratulationsText.text = "Congratulation $userName!"
-        scoreValue.text = userScore
-        pointValue.text = userPoints
-        findViewById<TextView>(R.id.passing_score_text).text = "Passing Score : $passingScore"
-        findViewById<TextView>(R.id.passing_point_text).text = "Passing Point : $passingPoint"
-        // ----------------------------------------
+        val percentage = if (totalQuestions > 0) (score * 100 / totalQuestions) else 0
+        scoreValue.text = "$percentage%"
 
-        // Set up click listeners
-        closeIcon.setOnClickListener {
-            Toast.makeText(this, "Close button clicked (UI Only)", Toast.LENGTH_SHORT).show()
-            finish() // Menutup activity
+        val username = FirebaseAuth.getInstance().currentUser?.displayName ?: "Dewa Coding"
+        congratulationsText.text = "Congratulations, $username!"
+
+        val passingScoreText: TextView = findViewById(R.id.passing_score_text)
+        passingScoreText.text = "You answered $score out of $totalQuestions correctly."
+
+        // Finalize the quiz session in Firestore
+        if (sessionId != null) {
+            updateQuizSession(sessionId, score)
         }
 
         nextButton.setOnClickListener {
-            Toast.makeText(this, "Next button clicked (UI Only)", Toast.LENGTH_SHORT).show()
-            // Contoh navigasi: kembali ke Dashboard
-            // val intent = Intent(this, DashboardActivity::class.java)
-            // startActivity(intent)
-            // finish()
+            val intent = Intent(this, DashboardActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            finish()
         }
+    }
+
+    private fun updateQuizSession(sessionId: String, finalScore: Int) {
+        val firestore = FirebaseFirestore.getInstance()
+        val sessionRef = firestore.collection("quiz_sessions").document(sessionId)
+
+        val updates = mapOf(
+            "score" to finalScore,
+            "completedAt" to Timestamp.now()
+        )
+
+        sessionRef.update(updates)
+            .addOnSuccessListener {
+                // Score updated successfully
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to save final score: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }
