@@ -46,25 +46,22 @@ fun RegisterPage() {
     val auth = FirebaseAuth.getInstance()
     val firestore = FirebaseFirestore.getInstance()
 
-    // --- Helper function to save user data ---
     val saveUserData = { user: FirebaseUser, name: String ->
         val userMap = hashMapOf(
             "uid" to user.uid,
             "displayName" to name,
-            "email" to user.email,
-            "level" to "Beginner", // Default level
-            "score" to 0 // Default score
+            "email" to (user.email ?: ""),
+            "level" to "Beginner",
+            "score" to 0L
         )
         firestore.collection("users").document(user.uid)
             .set(userMap)
             .addOnSuccessListener {
-                // Navigate to Dashboard after saving data
+                isLoading = false
                 Toast.makeText(context, "Registration Success!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(context, DashboardActivity::class.java).apply {
-                    putExtra("USER_EMAIL", user.email)
-                }
+                val intent = Intent(context, DashboardActivity::class.java)
                 context.startActivity(intent)
-                (context as? Activity)?.finishAffinity() // Clear back stack
+                (context as? Activity)?.finishAffinity()
             }
             .addOnFailureListener { e ->
                 isLoading = false
@@ -72,21 +69,22 @@ fun RegisterPage() {
             }
     }
 
-    // --- Google Sign-In Launcher ---
+    //Google Sign-In
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
+                isLoading = true
                 val account = task.getResult(ApiException::class.java)!!
                 val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
-                isLoading = true
                 auth.signInWithCredential(credential).addOnCompleteListener { authTask ->
                     if (authTask.isSuccessful) {
-                        val user = authTask.result?.user
-                        if (user != null) {
-                            saveUserData(user, user.displayName ?: "User")
+                        // ** THE FIX IS HERE **
+                        // Use a safe 'let' block to ensure the user object is not null
+                        authTask.result?.user?.let { user ->
+                            saveUserData(user, account.displayName ?: "User")
                         }
                     } else {
                         isLoading = false
@@ -97,6 +95,8 @@ fun RegisterPage() {
                 isLoading = false
                 error = "Google Sign-In failed. Code: ${e.statusCode}"
             }
+        } else {
+            isLoading = false
         }
     }
 
@@ -108,8 +108,6 @@ fun RegisterPage() {
         GoogleSignIn.getClient(context, gso)
     }
 
-
-    // --- UI Layout ---
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -128,7 +126,6 @@ fun RegisterPage() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // --- Email Registration Button ---
         Button(
             onClick = {
                 error = null
@@ -144,8 +141,7 @@ fun RegisterPage() {
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val user = task.result?.user
-                            if (user != null) {
+                            task.result?.user?.let { user ->
                                 saveUserData(user, username)
                             }
                         } else {
@@ -162,7 +158,6 @@ fun RegisterPage() {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // --- Google Registration Button ---
         Button(
             onClick = {
                 error = null

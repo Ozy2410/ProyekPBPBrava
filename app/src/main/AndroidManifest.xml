@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Internet permission is required for Firebase and Google Sign-In -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -16,7 +15,6 @@
         android:theme="@style/Theme.CodeCraft"
         tools:targetApi="31">
 
-        <!-- Launcher Activity: This is the first screen that opens -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -28,17 +26,10 @@
             </intent-filter>
         </activity>
 
-        <!-- Authentication Activities -->
-        <activity
-            android:name=".Login"
-            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.CodeCraft" />
-        <activity
-            android:name=".SignUpActivity"
-            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false"
@@ -47,14 +38,12 @@
             android:name=".ChangePasswordActivity"
             android:exported="false" />
 
-        <!-- Google Sign-In internal activity -->
         <activity
             android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:exported="false"
             android:excludeFromRecents="true"/>
 
-        <!-- Main Feature Activities -->
         <activity
             android:name=".DashboardActivity"
             android:exported="false" />
@@ -71,7 +60,6 @@
             android:name=".SettingsActivity"
             android:exported="false" />
 
-        <!-- Quiz Flow Activities -->
         <activity
             android:name=".QuizSelectionActivity"
             android:exported="false" />

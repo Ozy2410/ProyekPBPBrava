@@ -21,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-// Data class for a single quiz question (can be used for Firestore serialization)
 data class QuizQuestionItem(
     val question: String = "",
     val options: List<String> = listOf(),
@@ -38,7 +37,6 @@ class QuizQuestion : AppCompatActivity(), View.OnClickListener {
     private var currentQuestionIndex = 0
     private var score = 0
 
-    // Firebase and Session variables
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private var currentSessionId: String? = null
@@ -104,7 +102,6 @@ class QuizQuestion : AppCompatActivity(), View.OnClickListener {
             }
             quizQuestions = parsedQuestions
 
-            // Now, save this session to Firestore
             createQuizSessionInFirestore()
 
         } catch (e: Exception) {
@@ -132,7 +129,7 @@ class QuizQuestion : AppCompatActivity(), View.OnClickListener {
             .addOnSuccessListener { documentReference ->
                 currentSessionId = documentReference.id
                 runOnUiThread {
-                    loadQuestion() // Start the quiz only after the session is created
+                    loadQuestion()
                 }
             }
             .addOnFailureListener { e ->
@@ -154,11 +151,10 @@ class QuizQuestion : AppCompatActivity(), View.OnClickListener {
                 button.text = questionItem.options.getOrNull(index) ?: ""
             }
         } else {
-            // Quiz finished
             val intent = Intent(this, QuizResultActivity::class.java).apply {
                 putExtra("USER_SCORE", score)
                 putExtra("TOTAL_QUESTIONS", quizQuestions.size)
-                putExtra("SESSION_ID", currentSessionId) // Pass the session ID
+                putExtra("SESSION_ID", currentSessionId)
             }
             startActivity(intent)
             finish()

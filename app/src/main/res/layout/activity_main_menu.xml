@@ -25,7 +25,8 @@
         android:id="@+id/close_icon_dashboard"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/close_icon" android:layout_marginEnd="24dp"
+        android:src="@drawable/close_icon"
+        android:layout_marginEnd="24dp"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,7 +38,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="60dp" app:layout_constraintTop_toBottomOf="@id/app_title_dashboard"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/app_title_dashboard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation_bar">
@@ -62,71 +64,52 @@
                     android:id="@+id/profile_avatar"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/profile_icon" android:contentDescription="Profile Avatar"
+                    android:src="@drawable/profile_icon"
+                    android:contentDescription="Profile Avatar"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/username_dashboard"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Amba Fauzi Ramadhan"
+                    tools:text="Amba Fauzi Ramadhan"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:layout_marginStart="16dp"
                     app:layout_constraintTop_toTopOf="@id/profile_avatar"
-                    app:layout_constraintStart_toEndOf="@id/profile_avatar" />
+                    app:layout_constraintStart_toEndOf="@id/profile_avatar"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
-                    android:id="@+id/expert_tag"
+                    android:id="@+id/user_level_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Expert"
+                    tools:text="Expert"
                     android:textSize="14sp"
-                    android:textColor="@android:color/white"
-                    android:background="@drawable/rounded_purple_background"
+                    android:textColor="@color/purple_darker"
+                    android:background="@drawable/rounded_purple_tag_background"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintBaseline_toBaselineOf="@id/username_dashboard"
-                    app:layout_constraintStart_toEndOf="@id/username_dashboard" />
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/username_dashboard"
+                    app:layout_constraintStart_toEndOf="@id/profile_avatar" />
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/points_card"
+                <TextView
+                    android:id="@+id/user_score_dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp"
-                    android:backgroundTint="#D1C4E9"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp">
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/energy_icon" android:contentDescription="Points Icon"
-                            app:tint="@android:color/white" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="100"
-                            android:textColor="@android:color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:layout_marginStart="4dp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    tools:text="1500 Points"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBaseline_toBaselineOf="@id/user_level_dashboard"
+                    app:layout_constraintStart_toEndOf="@id/user_level_dashboard" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -307,61 +290,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/more_challenge_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="More Challange"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="32dp"
-                app:layout_constraintTop_toBottomOf="@id/another_quiz_grid"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/more_challenge_grid"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/more_challenge_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/language_quiz_card"
-                    style="@style/ChallengeCardStyle"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-                    <LinearLayout style="@style/ChallengeCardContentStyle">
-                        <ImageView style="@style/ChallengeCardIconStyle" android:src="@drawable/codecraft_logo_square" />
-                        <TextView style="@style/ChallengeCardTitleStyle" android:text="Language Quiz" />
-                        <LinearLayout style="@style/ChallengeCardScoreLayout">
-                            <TextView style="@style/ChallengeCardScoreText" android:text="0/15" />
-                            <ImageView style="@style/ChallengeCardLightningIcon" android:src="@drawable/ic_lightning_bolt" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/exam_quiz_card"
-                    style="@style/ChallengeCardStyle"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
-                    <LinearLayout style="@style/ChallengeCardContentStyle">
-                        <ImageView style="@style/ChallengeCardIconStyle" android:src="@drawable/codecraft_logo_square" />
-                        <TextView style="@style/ChallengeCardTitleStyle" android:text="Exam Quiz" />
-                        <LinearLayout style="@style/ChallengeCardScoreLayout">
-                            <TextView style="@style/ChallengeCardScoreText" android:text="0/25" />
-                            <ImageView style="@style/ChallengeCardLightningIcon" android:src="@drawable/ic_lightning_bolt" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -379,7 +307,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
         <LinearLayout
             android:id="@+id/nav_home"
             android:layout_width="0dp"
@@ -412,17 +339,6 @@
                     android:layout_height="28dp"
                     android:src="@drawable/leaderboard_icon"
                     android:contentDescription="Leaderboard" />
-                <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:text="3"
-                    android:textSize="10sp"
-                    android:textColor="@android:color/white"
-                    android:background="@drawable/badge_background"
-                    android:gravity="center"
-                    android:layout_gravity="top|end"
-                    android:layout_marginTop="-4dp"
-                    android:layout_marginEnd="-4dp" />
             </FrameLayout>
         </LinearLayout>
 
@@ -443,17 +359,6 @@
                     android:layout_height="28dp"
                     android:src="@drawable/bookmark_icon"
                     android:contentDescription="Bookmarks" />
-                <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:text="3"
-                    android:textSize="10sp"
-                    android:textColor="@android:color/white"
-                    android:background="@drawable/badge_background"
-                    android:gravity="center"
-                    android:layout_gravity="top|end"
-                    android:layout_marginTop="-4dp"
-                    android:layout_marginEnd="-4dp" />
             </FrameLayout>
         </LinearLayout>
 

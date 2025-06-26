@@ -16,16 +16,17 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
-// Data class to hold bookmark information
+// Data class now includes the topic
 data class Bookmark(
     val quizId: String = "",
-    val title: String = ""
+    val title: String = "",
+    val topic: String = "" // <-- Field for the full topic description
 )
 
-// RecyclerView Adapter for displaying bookmarks
+// Adapter remains the same structurally
 class BookmarksAdapter(
     private val bookmarks: MutableList<Bookmark>,
-    private val onBookmarkClicked: (Bookmark, Int) -> Unit,
+    private val onBookmarkClicked: (Bookmark) -> Unit,
     private val onUnbookmarkClicked: (Bookmark, Int) -> Unit
 ) : RecyclerView.Adapter<BookmarksAdapter.ViewHolder>() {
 
@@ -46,7 +47,7 @@ class BookmarksAdapter(
         holder.itemView.contentDescription = "Bookmarked quiz: ${bookmark.title}. Tap to start."
 
         holder.itemView.setOnClickListener {
-            onBookmarkClicked(bookmark, position)
+            onBookmarkClicked(bookmark)
         }
 
         holder.unbookmarkButton.setOnClickListener {
@@ -82,14 +83,14 @@ class BookmarksActivity : AppCompatActivity() {
 
         setupRecyclerView()
         fetchBookmarks()
-        setupNavigation()
+        setupNavigation() // This function call is now valid
     }
 
     private fun setupRecyclerView() {
         bookmarksAdapter = BookmarksAdapter(
             bookmarksList,
-            onBookmarkClicked = { bookmark, position ->
-                startQuizForBookmark(bookmark, position)
+            onBookmarkClicked = { bookmark ->
+                startQuizForBookmark(bookmark)
             },
             onUnbookmarkClicked = { bookmark, position ->
                 unbookmarkQuiz(bookmark, position)
@@ -99,28 +100,15 @@ class BookmarksActivity : AppCompatActivity() {
         bookmarksRecyclerView.adapter = bookmarksAdapter
     }
 
-    private fun startQuizForBookmark(bookmark: Bookmark, position: Int) {
-        // Fetch the quiz topic from the main quizzes collection
-        firestore.collection("quizzes").document(bookmark.quizId).get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val topic = document.getString("topicForGemini")
-                    if (topic != null) {
-                        val intent = Intent(this, QuizSelectionActivity::class.java).apply {
-                            putExtra("QUIZ_TOPIC", topic)
-                        }
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(this, "Could not find topic for this quiz.", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(this, "This quiz no longer exists. Removing from bookmarks.", Toast.LENGTH_LONG).show()
-                    unbookmarkQuiz(bookmark, position)
-                }
+    private fun startQuizForBookmark(bookmark: Bookmark) {
+        if (bookmark.topic.isNotBlank()) {
+            val intent = Intent(this, QuizQuestion::class.java).apply {
+                putExtra("QUIZ_TOPIC", bookmark.topic)
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to load quiz details.", Toast.LENGTH_SHORT).show()
-            }
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "This bookmarked quiz is outdated. Please re-bookmark it.", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun unbookmarkQuiz(bookmark: Bookmark, position: Int) {
@@ -134,10 +122,7 @@ class BookmarksActivity : AppCompatActivity() {
                 bookmarksList.removeAt(position)
                 bookmarksAdapter.notifyItemRemoved(position)
                 bookmarksAdapter.notifyItemRangeChanged(position, bookmarksList.size)
-                if (bookmarksList.isEmpty()) {
-                    emptyBookmarksText.visibility = View.VISIBLE
-                    bookmarksRecyclerView.visibility = View.GONE
-                }
+                checkEmptyState()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -157,23 +142,25 @@ class BookmarksActivity : AppCompatActivity() {
             .orderBy("bookmarkedAt", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    emptyBookmarksText.visibility = View.VISIBLE
-                    bookmarksRecyclerView.visibility = View.GONE
-                } else {
-                    bookmarksList.clear()
-                    bookmarksList.addAll(documents.toObjects(Bookmark::class.java))
-                    bookmarksAdapter.notifyDataSetChanged()
-
-                    emptyBookmarksText.visibility = View.GONE
-                    bookmarksRecyclerView.visibility = View.VISIBLE
-                }
+                bookmarksList.clear()
+                bookmarksList.addAll(documents.toObjects(Bookmark::class.java))
+                bookmarksAdapter.notifyDataSetChanged()
+                checkEmptyState()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Error fetching bookmarks: ${e.message}", Toast.LENGTH_SHORT).show()
-                emptyBookmarksText.visibility = View.VISIBLE
-                bookmarksRecyclerView.visibility = View.GONE
+                checkEmptyState()
             }
+    }
+
+    private fun checkEmptyState() {
+        if (bookmarksList.isEmpty()) {
+            emptyBookmarksText.visibility = View.VISIBLE
+            bookmarksRecyclerView.visibility = View.GONE
+        } else {
+            emptyBookmarksText.visibility = View.GONE
+            bookmarksRecyclerView.visibility = View.VISIBLE
+        }
     }
 
     private fun setupNavigation() {
